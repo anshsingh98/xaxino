@@ -7,9 +7,9 @@ services:
     plan: starter
     autoDeploy: false
     disk:
-      - name: xaxino-mysql-data
-        mountPath: /var/lib/mysql
-        sizeGB: 10
+      name: xaxino-mysql-data
+      mountPath: /var/lib/mysql
+      sizeGB: 10
     envVars:
       - key: MYSQL_DATABASE
         value: xaxino
