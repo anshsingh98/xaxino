@@ -44,6 +44,12 @@ mkdir -p storage/framework/cache/data storage/framework/sessions \
 chown -R www-data:www-data storage bootstrap/cache temp || true
 chmod -R 775 storage bootstrap/cache temp || true
 
+# Restore shipped asset files that are missing from the persistent
+# uploads disk (never overwrites user-uploaded files)
+if [ -d /var/www/assets-seed ]; then
+    cp -rn /var/www/assets-seed/. public/assets/ 2>/dev/null || true
+fi
+
 # ------------------------------------------------------------------
 # 3. Database: wait for it, import dump if empty, migrate
 # ------------------------------------------------------------------

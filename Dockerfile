@@ -21,6 +21,9 @@ RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist --ignor
 # App source
 COPY . .
 
+# Seed copy of shipped assets (synced into the persistent disk on boot)
+RUN cp -r public/assets /var/www/assets-seed
+
 # Prepare env + dirs BEFORE dump-autoload (package:discover needs them)
 RUN cp -n .env.example .env \
     && mkdir -p storage/framework/cache/data storage/framework/sessions storage/framework/testing storage/framework/views \

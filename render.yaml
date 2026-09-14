@@ -28,6 +28,10 @@ services:
     plan: starter
     healthCheckPath: /up
     autoDeploy: true
+    disk:
+      name: xaxino-uploads
+      mountPath: /var/www/html/public/assets
+      sizeGB: 5
     envVars:
       - key: APP_ENV
         value: production
