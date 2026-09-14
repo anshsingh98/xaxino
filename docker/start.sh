@@ -72,7 +72,12 @@ else
 fi
 
 # ------------------------------------------------------------------
-# 4. Caches & boot
+# 4. Bind nginx to Render's $PORT (default 8000 locally)
+# ------------------------------------------------------------------
+sed -i "s/^    listen .*/    listen ${PORT:-8000};/" /etc/nginx/http.d/default.conf
+
+# ------------------------------------------------------------------
+# 5. Caches & boot
 # ------------------------------------------------------------------
 php artisan storage:link || true
 php artisan config:cache

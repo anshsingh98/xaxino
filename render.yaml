@@ -6,6 +6,10 @@ services:
     dockerfilePath: ./docker/mysql/Dockerfile
     plan: starter
     autoDeploy: false
+    disk:
+      - name: xaxino-mysql-data
+        mountPath: /var/lib/mysql
+        sizeGB: 10
     envVars:
       - key: MYSQL_DATABASE
         value: xaxino
@@ -48,10 +52,10 @@ services:
         fromService:
           name: xaxino-mysql
           type: pserv
-          property: username
+          envVarKey: MYSQL_USER
       - key: DB_PASSWORD
         fromService:
           name: xaxino-mysql
           type: pserv
-          property: password
+          envVarKey: MYSQL_PASSWORD
 
