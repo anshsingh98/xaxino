@@ -1,0 +1,57 @@
+services:
+  # ---------- Private MySQL database ----------
+  - type: pserv
+    name: xaxino-mysql
+    runtime: docker
+    dockerfilePath: ./docker/mysql/Dockerfile
+    plan: starter
+    autoDeploy: false
+    envVars:
+      - key: MYSQL_DATABASE
+        value: xaxino
+      - key: MYSQL_USER
+        value: xaxino
+      - key: MYSQL_PASSWORD
+        generateValue: true
+      - key: MYSQL_ROOT_PASSWORD
+        generateValue: true
+
+  # ---------- Web service (Laravel app) ----------
+  - type: web
+    name: xaxino
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: starter
+    healthCheckPath: /up
+    autoDeploy: true
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_URL
+        sync: false
+      - key: APP_KEY
+        generateValue: true
+      - key: DB_CONNECTION
+        value: mysql
+      - key: DB_HOST
+        fromService:
+          name: xaxino-mysql
+          type: pserv
+          property: host
+      - key: DB_PORT
+        value: "3306"
+      - key: DB_DATABASE
+        value: xaxino
+      - key: DB_USERNAME
+        fromService:
+          name: xaxino-mysql
+          type: pserv
+          property: username
+      - key: DB_PASSWORD
+        fromService:
+          name: xaxino-mysql
+          type: pserv
+          property: password
+
